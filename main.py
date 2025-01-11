@@ -1,14 +1,14 @@
-import requests,re
-# import os
+import requests, os, re
 from bs4 import BeautifulSoup
 
-# def clear_screen():
-#     if os.name == 'posix':
-#         _ = os.system('clear')
-#     else:
-#         _ = os.system('cls')
+def clear_screen():
+    if os.name == 'posix':
+        _ = os.system('clear')
+    else:
+        _ = os.system('cls')
 
 def menu():
+    clear_screen()
     print("""
 ███╗   ███╗██╗   ██╗██╗     ██╗    ██╗   ██╗ █████╗ ██████╗     ████████╗ ██████╗  ██████╗ ██╗     
 ████╗ ████║██║   ██║██║     ██║    ██║   ██║██╔══██╗██╔══██╗    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     
@@ -19,6 +19,16 @@ def menu():
         made by ゆうぽん＃チック症  「チェック」だけに「チック」!wwwwwwwwwww
         [01] Live Checker   [02] Combo Formatter                                                                          
     """)
+    mode = int(input("Mode>> "))
+    if mode == 1:
+        print("insert ids in list.txt first")
+        checker()
+    if mode == 2:
+        print("insert combo txt in combo.txt")
+        formatter()
+        print("saved to list.txt")
+    else:
+        menu()
 
 def live_check(id: str):
     session = requests.session()
@@ -33,8 +43,8 @@ def live_check(id: str):
         print(f"Failed to login | {id}")
 
 def checker():
-    with open("./data/list.txt", "r", encoding="utf-8") as f:
-        ids = f.readlines()
+    with open("./data/list.txt", "r", encoding="utf-8") as file:
+        ids = file.readlines()
     for id in ids:
         live_check(id)
 
@@ -47,16 +57,4 @@ def formatter():
         for number in numbers:
             output_file.write(number + "\n")
 
-def main():
-    menu()
-    mode = int(input("Mode>> "))
-    if mode == 1:
-        print("insert ids in list.txt first")
-        checker()
-        
-    if mode == 2:
-        print("insert combo txt in combo.txt")
-        formatter()
-        print("saved to list.txt")
-
-main()
+menu()
