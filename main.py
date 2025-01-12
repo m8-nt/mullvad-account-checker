@@ -49,12 +49,14 @@ def checker():
         live_check(id)
 
 def formatter():
-    with open("./data/combo.txt", "r", encoding="utf-8") as file:
-        combo = file.read()
-    numbers = re.findall(r'\b\d{16}\b', combo)
-
-    with open("./data/list.txt", "w", encoding="utf-8") as output_file:
-        for number in numbers:
-            output_file.write(number + "\n")
+    content = ""
+    with open("./data/combo.txt","r",errors="ignore",encoding="utf-8") as f:
+        text = f.read()
+    num = list(set(re.findall(r"\b(\d{16}|\d{4}[:\s]\d{4}[:\s]\d{4}[:\s]\d{4})\b", text)))
+    for contents in num:
+        contents = contents.replace(" ","").replace(":","")
+        content+=f"{contents}\n"
+    with open("./data/list.txt","w",errors="ignore", encoding="utf-8") as f:
+        f.write(f"{content}")
 
 menu()
